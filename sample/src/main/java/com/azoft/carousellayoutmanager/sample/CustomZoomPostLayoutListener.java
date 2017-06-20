@@ -18,11 +18,13 @@ public class CustomZoomPostLayoutListener implements CarouselLayoutManager.PostL
 	public ItemTransformation transformChild(@NonNull final View child, final float itemPositionToCenterDiff, final int orientation) {
 		final TestViewHolder holder = (TestViewHolder) child.getTag();
 		float percent = Math.min(1f, Math.abs(itemPositionToCenterDiff));
-		if (itemPositionToCenterDiff > 0) {
+		if (itemPositionToCenterDiff < 0) {
 			holder.expectAnim.setPercent(percent);
 		} else {
 			holder.otherExpectAnim.setPercent(percent);
 		}
+		holder.mItemViewBinding.cItem1.setText(String.format("%.2f", itemPositionToCenterDiff));
+		holder.mItemViewBinding.cItem2.setText(String.format("%.2f", itemPositionToCenterDiff));
 		return null;
 	}
 }

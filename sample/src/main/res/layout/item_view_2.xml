@@ -13,18 +13,20 @@
 
 		<TextView
 			android:id="@+id/c_item_1"
-			android:layout_width="wrap_content"
+			android:layout_width="50dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
 			android:background="#f00"
+			android:gravity="center"
 			tools:text="0"/>
 
 		<TextView
 			android:id="@+id/c_item_2"
-			android:layout_width="wrap_content"
+			android:layout_width="50dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal|bottom"
 			android:background="#f00"
+			android:gravity="center"
 			tools:text="0"/>
 
 		<View

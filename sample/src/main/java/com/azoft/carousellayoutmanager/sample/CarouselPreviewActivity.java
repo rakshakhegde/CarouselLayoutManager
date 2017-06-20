@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,10 @@ import com.github.florent37.expectanim.ExpectAnim;
 import java.util.Locale;
 import java.util.Random;
 
-import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
+import static com.github.florent37.expectanim.core.Expectations.bottomOfParent;
+import static com.github.florent37.expectanim.core.Expectations.centerVerticalInParent;
+import static com.github.florent37.expectanim.core.Expectations.rightOfParent;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
-import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 
 public class CarouselPreviewActivity extends AppCompatActivity {
 
@@ -162,18 +162,19 @@ public class CarouselPreviewActivity extends AppCompatActivity {
             expectAnim = new ExpectAnim()
                     .expect(mItemViewBinding.cItem1)
                     .toBe(
-                            topOfParent().withMarginDp(32)
+                            centerVerticalInParent()
                     )
                     .expect(mItemViewBinding.addressTV)
                     .toBe(
-                            toRightOf(mItemViewBinding.cItem1)
+                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4)
                     )
                     .toAnimation();
 
             otherExpectAnim = new ExpectAnim()
-                    .expect(mItemViewBinding.cItem2)
+                    .expect(mItemViewBinding.addressTV)
                     .toBe(
-                            outOfScreen(Gravity.BOTTOM)
+                            bottomOfParent(),
+                            rightOfParent()
                     )
                     .toAnimation();
 
