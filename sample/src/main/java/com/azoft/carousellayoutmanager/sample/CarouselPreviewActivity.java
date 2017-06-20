@@ -171,7 +171,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
                     .toAnimation();
 
             otherExpectAnim = new ExpectAnim()
-                    .expect(mItemViewBinding.addressTV)
+                    .expect(mItemViewBinding.cItem2)
                     .toBe(
                             bottomOfParent(),
                             rightOfParent()
