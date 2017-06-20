@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
-import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.azoft.carousellayoutmanager.DefaultChildSelectionListener;
 import com.azoft.carousellayoutmanager.sample.databinding.ActivityCarouselPreviewBinding;
@@ -73,12 +71,12 @@ public class CarouselPreviewActivity extends AppCompatActivity {
 
     private void initRecyclerView(final RecyclerView recyclerView, final CarouselLayoutManager layoutManager, final TestAdapter adapter) {
         // enable zoom effect. this line can be customized
-        layoutManager.setPostLayoutListener(new CustomZoomPostLayoutListener());
+//        layoutManager.setPostLayoutListener(new CustomZoomPostLayoutListener());
         layoutManager.setMaxVisibleItems(2);
 
         recyclerView.setLayoutManager(layoutManager);
         // we expect only fixed sized item for now
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         // sample adapter with random data
         recyclerView.setAdapter(adapter);
         // enable center post scrolling
@@ -141,6 +139,11 @@ public class CarouselPreviewActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mItemsCount;
+        }
+
+        public void decrement() {
+            mItemsCount--;
+            notifyDataSetChanged();
         }
     }
 

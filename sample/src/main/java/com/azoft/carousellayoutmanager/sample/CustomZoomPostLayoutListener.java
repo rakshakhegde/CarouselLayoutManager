@@ -15,6 +15,9 @@ public class CustomZoomPostLayoutListener implements CarouselLayoutManager.PostL
 
 	@Override
 	public ItemTransformation transformChild(@NonNull final View child, final float itemPositionToCenterDiff, final int orientation) {
+		float translateVal = itemPositionToCenterDiff * 100;
+		child.findViewById(R.id.c_item_1).setTranslationX(translateVal);
+		child.findViewById(R.id.c_item_2).setTranslationX(translateVal);
 //		final float scale = (float) (2 * (2 * -StrictMath.atan(Math.abs(itemPositionToCenterDiff) + 1.0) / Math.PI + 1));
 		final float scale = -Math.abs(itemPositionToCenterDiff / 3f) + 1f;
 
@@ -29,7 +32,7 @@ public class CustomZoomPostLayoutListener implements CarouselLayoutManager.PostL
 			translateY = 0;
 		}
 
-		return new ItemTransformation(scale, scale, translateX, translateY);
+		return new ItemTransformation(1, 1, 0, 0);
 	}
 
 	private float translate(int size, float itemPositionToCenterDiff, float scale) {
