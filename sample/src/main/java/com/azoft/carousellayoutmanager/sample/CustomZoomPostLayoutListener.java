@@ -1,7 +1,9 @@
 package com.azoft.carousellayoutmanager.sample;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.ItemTransformation;
@@ -24,12 +26,15 @@ public class CustomZoomPostLayoutListener implements CarouselLayoutManager.PostL
 		holder.mItemViewBinding.cItem1.setText(String.format("%.2f", itemPositionToCenterDiff));
 		holder.mItemViewBinding.cItem2.setText(String.format("%.2f", itemPositionToCenterDiff));
 
-//		ViewGroup.LayoutParams lp = holder.mItemViewBinding.getRoot().getLayoutParams();
-//		Resources res = child.getResources();
-//		int maxHeight = res.getDimensionPixelSize(R.dimen.max_card_height);
-//		int minHeight = res.getDimensionPixelSize(R.dimen.min_card_height);
-//		lp.height = (int) ((maxHeight - minHeight) * percent + minHeight);
-//		holder.mItemViewBinding.getRoot().setLayoutParams(lp);
+		ViewGroup.LayoutParams lp = holder.mItemViewBinding.rootrel.getLayoutParams();
+		Resources res = child.getResources();
+		int maxHeight = res.getDimensionPixelSize(R.dimen.max_card_height);
+		int minHeight = res.getDimensionPixelSize(R.dimen.min_card_height);
+		lp.height = (int) ((maxHeight - minHeight) * percent + minHeight);
+		holder.mItemViewBinding.rootrel.setLayoutParams(lp);
+		holder.mItemViewBinding.rootrel.setMinimumHeight(lp.height);
+		holder.mItemViewBinding.rootrel.requestLayout();
+		holder.itemView.requestLayout();
 		return null;
 	}
 }

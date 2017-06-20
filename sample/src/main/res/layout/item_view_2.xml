@@ -4,47 +4,65 @@
         xmlns:tools="http://schemas.android.com/tools">
 
 	<FrameLayout
-		android:id="@+id/rootrel"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/max_card_height"
-		android:layout_marginBottom="20dp"
-		android:layout_marginTop="20dp"
-		>
+		android:background="#50F0">
 
-		<TextView
-			android:id="@+id/c_item_1"
-			android:layout_width="50dp"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="4dp"
-			android:layout_marginTop="4dp"
-			android:background="#f00"
-			android:gravity="center"
-			tools:text="0"/>
-
-		<TextView
-			android:id="@+id/c_item_2"
-			android:layout_width="50dp"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal|bottom"
-			android:background="#f00"
-			android:gravity="center"
-			tools:text="0"/>
-
-		<View
+		<FrameLayout
+			android:id="@+id/rootrel"
 			android:layout_width="match_parent"
-			android:layout_height="1dp"
+			android:layout_height="@dimen/max_card_height"
 			android:layout_gravity="center"
-			android:background="#0f0"/>
+			>
 
-		<TextView
-			android:id="@+id/addressTV"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:background="#FFF"
-			android:text="#302, Beer Cafe, Indiranagar"
-			android:textColor="#000"/>
+			<TextView
+				android:id="@+id/c_item_1"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="4dp"
+				android:layout_marginTop="4dp"
+				android:background="#f00"
+				android:gravity="center"
+				tools:text="0"/>
 
+			<TextView
+				android:id="@+id/c_item_2"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal|bottom"
+				android:background="#f00"
+				android:gravity="center"
+				tools:text="0"/>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_gravity="center"
+				android:background="#0f0"/>
+
+			<TextView
+				android:id="@+id/addressTV"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:background="#FFF"
+				android:ellipsize="end"
+				android:maxLines="2"
+				android:text="@string/office_address"
+				android:textColor="#000"/>
+
+			<TextView
+				android:id="@+id/addressTVSingleLine"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:background="#FFF"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:text="@string/office_address"
+				android:textColor="#000"/>
+
+		</FrameLayout>
 	</FrameLayout>
 
 </layout>

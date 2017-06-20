@@ -23,8 +23,10 @@ import java.util.Random;
 
 import static com.github.florent37.expectanim.core.Expectations.bottomOfParent;
 import static com.github.florent37.expectanim.core.Expectations.centerVerticalInParent;
+import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.rightOfParent;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
+import static com.github.florent37.expectanim.core.Expectations.visible;
 
 public class CarouselPreviewActivity extends AppCompatActivity {
 
@@ -82,7 +84,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         // we expect only fixed sized item for now
-//        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         // sample adapter with random data
         recyclerView.setAdapter(adapter);
         // enable center post scrolling
@@ -139,7 +141,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
         public void onBindViewHolder(final TestViewHolder holder, final int position) {
             holder.mItemViewBinding.cItem1.setText(String.valueOf(mPosition[position]));
             holder.mItemViewBinding.cItem2.setText(String.valueOf(mPosition[position]));
-            holder.itemView.setBackgroundColor(mColors[position]);
+            holder.mItemViewBinding.rootrel.setBackgroundColor(mColors[position]);
         }
 
         @Override
@@ -158,6 +160,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
             super(itemViewBinding.getRoot());
 
             mItemViewBinding = itemViewBinding;
+            mItemViewBinding.addressTVSingleLine.setAlpha(0);
 
             expectAnim = new ExpectAnim()
                     .expect(mItemViewBinding.cItem1)
@@ -166,7 +169,13 @@ public class CarouselPreviewActivity extends AppCompatActivity {
                     )
                     .expect(mItemViewBinding.addressTV)
                     .toBe(
-                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4)
+                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4),
+                            invisible()
+                    )
+                    .expect(mItemViewBinding.addressTVSingleLine)
+                    .toBe(
+                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4),
+                            visible()
                     )
                     .toAnimation();
 
