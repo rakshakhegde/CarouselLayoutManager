@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,15 @@ import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 import com.azoft.carousellayoutmanager.DefaultChildSelectionListener;
 import com.azoft.carousellayoutmanager.sample.databinding.ActivityCarouselPreviewBinding;
-import com.azoft.carousellayoutmanager.sample.databinding.ItemViewBinding;
+import com.azoft.carousellayoutmanager.sample.databinding.ItemView2Binding;
+import com.github.florent37.expectanim.ExpectAnim;
 
 import java.util.Locale;
 import java.util.Random;
+
+import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
+import static com.github.florent37.expectanim.core.Expectations.toRightOf;
+import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 
 public class CarouselPreviewActivity extends AppCompatActivity {
 
@@ -33,8 +39,8 @@ public class CarouselPreviewActivity extends AppCompatActivity {
         final TestAdapter adapter = new TestAdapter();
 
         // create layout manager with needed params: vertical, cycle
-        initRecyclerView(binding.listHorizontal, new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false), adapter);
-        initRecyclerView(binding.listVertical, new CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false), adapter);
+        initRecyclerView(binding.listHorizontal, new CustomCarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false), adapter);
+        initRecyclerView(binding.listVertical, new CustomCarouselLayoutManager(CarouselLayoutManager.VERTICAL, false), adapter);
 
         // fab button will add element to the end of the list
         binding.fabScroll.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +77,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
 
     private void initRecyclerView(final RecyclerView recyclerView, final CarouselLayoutManager layoutManager, final TestAdapter adapter) {
         // enable zoom effect. this line can be customized
-//        layoutManager.setPostLayoutListener(new CustomZoomPostLayoutListener());
+        layoutManager.setPostLayoutListener(new CustomZoomPostLayoutListener());
         layoutManager.setMaxVisibleItems(2);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -126,7 +132,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
 
         @Override
         public TestViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-            return new TestViewHolder(ItemViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            return new TestViewHolder(ItemView2Binding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
 
         @Override
@@ -140,21 +146,38 @@ public class CarouselPreviewActivity extends AppCompatActivity {
         public int getItemCount() {
             return mItemsCount;
         }
-
-        public void decrement() {
-            mItemsCount--;
-            notifyDataSetChanged();
-        }
     }
 
-    private static class TestViewHolder extends RecyclerView.ViewHolder {
+    static class TestViewHolder extends RecyclerView.ViewHolder {
 
-        private final ItemViewBinding mItemViewBinding;
+        final ItemView2Binding mItemViewBinding;
+        final ExpectAnim expectAnim;
+        final ExpectAnim otherExpectAnim;
 
-        TestViewHolder(final ItemViewBinding itemViewBinding) {
+        TestViewHolder(final ItemView2Binding itemViewBinding) {
             super(itemViewBinding.getRoot());
 
             mItemViewBinding = itemViewBinding;
+
+            expectAnim = new ExpectAnim()
+                    .expect(mItemViewBinding.cItem1)
+                    .toBe(
+                            topOfParent().withMarginDp(32)
+                    )
+                    .expect(mItemViewBinding.addressTV)
+                    .toBe(
+                            toRightOf(mItemViewBinding.cItem1)
+                    )
+                    .toAnimation();
+
+            otherExpectAnim = new ExpectAnim()
+                    .expect(mItemViewBinding.cItem2)
+                    .toBe(
+                            outOfScreen(Gravity.BOTTOM)
+                    )
+                    .toAnimation();
+
+            itemViewBinding.getRoot().setTag(this);
         }
     }
 }

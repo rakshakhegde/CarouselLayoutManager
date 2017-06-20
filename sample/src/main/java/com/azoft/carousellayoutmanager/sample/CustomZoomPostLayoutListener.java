@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.ItemTransformation;
+import com.azoft.carousellayoutmanager.sample.CarouselPreviewActivity.TestViewHolder;
 
 /**
  * Implementation of {@link CarouselLayoutManager.PostLayoutListener} that makes interesting scaling of items. <br />
@@ -15,28 +16,13 @@ public class CustomZoomPostLayoutListener implements CarouselLayoutManager.PostL
 
 	@Override
 	public ItemTransformation transformChild(@NonNull final View child, final float itemPositionToCenterDiff, final int orientation) {
-		float translateVal = itemPositionToCenterDiff * 100;
-		child.findViewById(R.id.c_item_1).setTranslationX(translateVal);
-		child.findViewById(R.id.c_item_2).setTranslationX(translateVal);
-//		final float scale = (float) (2 * (2 * -StrictMath.atan(Math.abs(itemPositionToCenterDiff) + 1.0) / Math.PI + 1));
-		final float scale = -Math.abs(itemPositionToCenterDiff / 3f) + 1f;
-
-		// because scaling will make view smaller in its center, then we should move this item to the top or bottom to make it visible
-		final float translateY;
-		final float translateX;
-		if (CarouselLayoutManager.VERTICAL == orientation) {
-			translateY = translate(child.getMeasuredHeight(), itemPositionToCenterDiff, scale);
-			translateX = 0;
+		final TestViewHolder holder = (TestViewHolder) child.getTag();
+		float percent = Math.min(1f, Math.abs(itemPositionToCenterDiff));
+		if (itemPositionToCenterDiff > 0) {
+			holder.expectAnim.setPercent(percent);
 		} else {
-			translateX = translate(child.getMeasuredWidth(), itemPositionToCenterDiff, scale);
-			translateY = 0;
+			holder.otherExpectAnim.setPercent(percent);
 		}
-
-		return new ItemTransformation(1, 1, 0, 0);
-	}
-
-	private float translate(int size, float itemPositionToCenterDiff, float scale) {
-		final float translateYGeneral = size * (1 - scale) / 2f;
-		return Math.signum(itemPositionToCenterDiff) * translateYGeneral;
+		return null;
 	}
 }

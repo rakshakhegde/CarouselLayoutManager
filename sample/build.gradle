@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.azoft.carousellayoutmanager.sample"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -28,5 +28,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.azoft.carousellayoutmanager:carousel:1.2.1'
+    compile 'com.github.florent37:expectanim:1.0.4'
 //    compile project(':carousel')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
