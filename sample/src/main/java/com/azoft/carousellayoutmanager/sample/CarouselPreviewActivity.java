@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,10 @@ import com.github.florent37.expectanim.ExpectAnim;
 import java.util.Locale;
 import java.util.Random;
 
-import static com.github.florent37.expectanim.core.Expectations.bottomOfParent;
 import static com.github.florent37.expectanim.core.Expectations.centerVerticalInParent;
-import static com.github.florent37.expectanim.core.Expectations.invisible;
-import static com.github.florent37.expectanim.core.Expectations.rightOfParent;
+import static com.github.florent37.expectanim.core.Expectations.outOfScreen;
+import static com.github.florent37.expectanim.core.Expectations.toHaveBackgroundAlpha;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
-import static com.github.florent37.expectanim.core.Expectations.visible;
-import static com.github.florent37.expectanim.core.Expectations.width;
 
 public class CarouselPreviewActivity extends AppCompatActivity {
 
@@ -142,7 +140,7 @@ public class CarouselPreviewActivity extends AppCompatActivity {
         public void onBindViewHolder(final TestViewHolder holder, final int position) {
             holder.mItemViewBinding.cItem1.setText(String.valueOf(mPosition[position]));
             holder.mItemViewBinding.cItem2.setText(String.valueOf(mPosition[position]));
-            holder.mItemViewBinding.rootrel.setBackgroundColor(mColors[position]);
+//            holder.mItemViewBinding.rootrel.setBackgroundColor(mColors[position]);
         }
 
         @Override
@@ -161,33 +159,40 @@ public class CarouselPreviewActivity extends AppCompatActivity {
             super(itemViewBinding.getRoot());
 
             mItemViewBinding = itemViewBinding;
-            mItemViewBinding.addressTVSingleLine.setAlpha(0);
 
             expectAnim = new ExpectAnim()
-                    .expect(mItemViewBinding.cItem1)
-                    .toBe(
-                            centerVerticalInParent(),
-                            width(0).toDp()
-                    )
+
+		            .expect(mItemViewBinding.constraintLayout)
+		            .toBe(toHaveBackgroundAlpha(1f))
+
+		            .expect(mItemViewBinding.pointTV)
+		            .toBe(centerVerticalInParent())
+
                     .expect(mItemViewBinding.addressTV)
                     .toBe(
-                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4),
-                            rightOfParent().withMarginDp(4),
-                            invisible()
+		                    centerVerticalInParent(),
+		                    toRightOf(mItemViewBinding.pointTV).withMarginDp(4)
                     )
-                    .expect(mItemViewBinding.addressTVSingleLine)
-                    .toBe(
-                            toRightOf(mItemViewBinding.cItem1).withMarginDp(4),
-                            visible()
-                    )
+
+		            .expect(mItemViewBinding.locationTypeTV)
+		            .toBe(outOfScreen(Gravity.TOP))
+
                     .toAnimation();
 
             otherExpectAnim = new ExpectAnim()
-                    .expect(mItemViewBinding.cItem2)
-                    .toBe(
-                            bottomOfParent(),
-                            rightOfParent()
-                    )
+
+		            .expect(mItemViewBinding.pointTV)
+		            .toBe(centerVerticalInParent())
+
+		            .expect(mItemViewBinding.addressTV)
+		            .toBe(
+		                    centerVerticalInParent(),
+		                    toRightOf(mItemViewBinding.pointTV).withMarginDp(4)
+		            )
+
+		            .expect(mItemViewBinding.locationTypeTV)
+		            .toBe(outOfScreen(Gravity.BOTTOM))
+
                     .toAnimation();
 
             itemViewBinding.getRoot().setTag(this);
