@@ -27,6 +27,7 @@ import static com.github.florent37.expectanim.core.Expectations.invisible;
 import static com.github.florent37.expectanim.core.Expectations.rightOfParent;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
 import static com.github.florent37.expectanim.core.Expectations.visible;
+import static com.github.florent37.expectanim.core.Expectations.width;
 
 public class CarouselPreviewActivity extends AppCompatActivity {
 
@@ -165,11 +166,13 @@ public class CarouselPreviewActivity extends AppCompatActivity {
             expectAnim = new ExpectAnim()
                     .expect(mItemViewBinding.cItem1)
                     .toBe(
-                            centerVerticalInParent()
+                            centerVerticalInParent(),
+                            width(0).toDp()
                     )
                     .expect(mItemViewBinding.addressTV)
                     .toBe(
                             toRightOf(mItemViewBinding.cItem1).withMarginDp(4),
+                            rightOfParent().withMarginDp(4),
                             invisible()
                     )
                     .expect(mItemViewBinding.addressTVSingleLine)
