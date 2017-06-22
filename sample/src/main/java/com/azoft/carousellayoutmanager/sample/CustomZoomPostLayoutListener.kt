@@ -3,7 +3,6 @@ package com.azoft.carousellayoutmanager.sample
 import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.View
-
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.ItemTransformation
 import com.github.florent37.expectanim.ExpectAnim
@@ -33,6 +32,13 @@ class CustomZoomPostLayoutListener : CarouselLayoutManager.PostLayoutListener {
 
 		holder.mItemViewBinding.cItem1.text = String.format("%.2f | %.2f", itemPositionToCenterDiff, percent)
 		holder.mItemViewBinding.cItem2.text = String.format("%.2f | %.2f", itemPositionToCenterDiff, percent)
+
+//		val viewToChange = holder.mItemViewBinding.cardview
+//		val lp = viewToChange.layoutParams as ConstraintLayout.LayoutParams
+//		lp.leftMargin = 400
+//		lp.marginStart = 400
+//		viewToChange.layoutParams = lp
+
 		return null
 	}
 }

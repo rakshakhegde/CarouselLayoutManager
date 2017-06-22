@@ -13,7 +13,8 @@ import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CenterScrollListener
 import com.azoft.carousellayoutmanager.DefaultChildSelectionListener
 import com.azoft.carousellayoutmanager.sample.databinding.ActivityCarouselPreviewBinding
-import com.azoft.carousellayoutmanager.sample.databinding.ItemView2Binding
+import com.azoft.carousellayoutmanager.sample.databinding.ItemViewBinding
+import com.facebook.stetho.Stetho
 import com.github.florent37.expectanim.ExpectAnim
 import com.github.florent37.expectanim.core.Expectations.*
 import java.util.*
@@ -22,16 +23,13 @@ class CarouselPreviewActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		Stetho.initializeWithDefaults(applicationContext)
 
 		val binding: ActivityCarouselPreviewBinding = DataBindingUtil.setContentView(this, R.layout.activity_carousel_preview)
 
-		setSupportActionBar(binding.toolbar)
-
 		val adapter = TestAdapter()
 
-		// create layout manager with needed params: vertical, cycle
-		initRecyclerView(binding.listHorizontal, CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false), adapter)
-		initRecyclerView(binding.listVertical, CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false), adapter)
+		initRecyclerView(binding.listVertical, CarouselLayoutManager(CarouselLayoutManager.VERTICAL), adapter)
 
 		// fab button will add element to the end of the list
 		binding.fabScroll.setOnClickListener {
@@ -42,7 +40,6 @@ class CarouselPreviewActivity : AppCompatActivity() {
                     adapter.notifyItemInserted(itemToRemove);
                 }
 */
-			binding.listHorizontal.smoothScrollToPosition(adapter.itemCount - 2)
 			binding.listVertical.smoothScrollToPosition(adapter.itemCount - 2)
 		}
 
@@ -55,7 +52,6 @@ class CarouselPreviewActivity : AppCompatActivity() {
                     adapter.notifyItemRemoved(itemToRemove);
                 }
 */
-			binding.listHorizontal.smoothScrollToPosition(1)
 			binding.listVertical.smoothScrollToPosition(1)
 		}
 	}
@@ -90,7 +86,7 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		}
 	}
 
-	private class TestAdapter internal constructor() : RecyclerView.Adapter<TestViewHolder>() {
+	private class TestAdapter : RecyclerView.Adapter<TestViewHolder>() {
 
 		private val mRandom = Random()
 		private val mColors: IntArray
@@ -110,14 +106,15 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		}
 
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
-			return TestViewHolder(ItemView2Binding.inflate(LayoutInflater.from(parent.context), parent, false))
+			return TestViewHolder(ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 		}
 
 		override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
 			holder.mItemViewBinding.cItem1.text = mPosition[position].toString()
 			holder.mItemViewBinding.cItem2.text = mPosition[position].toString()
-			holder.mItemViewBinding.locationTypeTV.text = if (position == 0) "Deliver to" else "Delivery " + (position + 1)
-			//            holder.mItemViewBinding.rootrel.setBackgroundColor(mColors[position]);
+
+			holder.mItemViewBinding.locationTypeTV.text = if (position == 0) "Deliver to"
+			else "Delivery " + (position + 1)
 		}
 
 		override fun getItemCount(): Int {
@@ -125,11 +122,8 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		}
 	}
 
-	internal class TestViewHolder(val mItemViewBinding: ItemView2Binding) : RecyclerView.ViewHolder(mItemViewBinding.root) {
+	internal class TestViewHolder(val mItemViewBinding: ItemViewBinding) : RecyclerView.ViewHolder(mItemViewBinding.root) {
 		val expectAnim: ExpectAnim = ExpectAnim()
-
-				.expect(mItemViewBinding.constraintLayout)
-				.toBe(toHaveBackgroundAlpha(1f))
 
 				.expect(mItemViewBinding.pointTV)
 				.toBe(centerVerticalInParent())
