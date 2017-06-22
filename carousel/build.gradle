@@ -12,6 +12,7 @@ buildscript {
 }
 
 apply plugin: "com.android.library"
+apply plugin: 'kotlin-android'
 
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
@@ -103,6 +104,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
     javadocDeps 'com.android.support:support-annotations:25.0.0'
     javadocDeps 'com.android.support:recyclerview-v7:25.0.0'
+	compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 task sourcesJar(type: Jar) {
@@ -128,6 +130,9 @@ artifacts {
 // Excluding aar artifacts from uploading
 configurations.archives.artifacts.with { archives ->
     for (def iter = archives.iterator(); iter.hasNext();) {
-        if (iter.next().file =~ 'aar') iter.remove();
+        if (iter.next().file =~ 'aar') iter.remove()
     }
+}
+repositories {
+	mavenCentral()
 }

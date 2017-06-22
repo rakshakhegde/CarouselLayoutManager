@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CarouselLayoutManager</string>
 	<string name="office_address">307, K.P.Square, 3rd Floor, 100 Feet Road</string>
+	<string name="expectanim_view_id">expectanim_view_id</string>
 </resources>

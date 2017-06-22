@@ -54,19 +54,19 @@
 
 		<TextView
 			android:id="@+id/c_item_1"
-			android:layout_width="30dp"
+			android:layout_width="60dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"
-			android:gravity="center"
+			android:gravity="end"
 			android:textSize="8sp"
 			tools:text="+0"/>
 
 		<TextView
 			android:id="@+id/c_item_2"
-			android:layout_width="30dp"
+			android:layout_width="60dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end|bottom"
-			android:gravity="center"
+			android:gravity="end"
 			android:textSize="8sp"
 			tools:text="-0"/>
 
