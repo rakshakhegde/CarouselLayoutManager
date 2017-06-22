@@ -1,8 +1,12 @@
 package com.azoft.carousellayoutmanager.sample
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.ItemTransformation
 import com.github.florent37.expectanim.ExpectAnim
@@ -33,12 +37,21 @@ class CustomZoomPostLayoutListener : CarouselLayoutManager.PostLayoutListener {
 		holder.mItemViewBinding.cItem1.text = String.format("%.2f | %.2f", itemPositionToCenterDiff, percent)
 		holder.mItemViewBinding.cItem2.text = String.format("%.2f | %.2f", itemPositionToCenterDiff, percent)
 
-//		val viewToChange = holder.mItemViewBinding.cardview
-//		val lp = viewToChange.layoutParams as ConstraintLayout.LayoutParams
-//		lp.leftMargin = 400
-//		lp.marginStart = 400
-//		viewToChange.layoutParams = lp
+		val grayscale: Int = (255 - percent * 10).toInt()
+		holder.mItemViewBinding.cardview.cardBackgroundColor = ColorStateList.valueOf(Color.rgb(grayscale, grayscale, grayscale))
+
+		holder.mItemViewBinding.rootlayout.transform<RecyclerView.LayoutParams> {
+			val margin: Int = (100 * Math.abs(itemPositionToCenterDiff) / 2).toInt()
+			setMargins(margin, 0, margin, 0)
+			marginStart = margin
+		}
 
 		return null
 	}
+}
+
+private inline fun <T : ViewGroup.LayoutParams> View.transform(function: T.() -> Unit) {
+	val lp = layoutParams as T
+	lp.function()
+	layoutParams = lp
 }

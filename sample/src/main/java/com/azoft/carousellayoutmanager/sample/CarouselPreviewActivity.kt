@@ -29,7 +29,7 @@ class CarouselPreviewActivity : AppCompatActivity() {
 
 		val adapter = TestAdapter()
 
-		initRecyclerView(binding.listVertical, CarouselLayoutManager(CarouselLayoutManager.VERTICAL), adapter)
+		initRecyclerView(binding.listVertical, CustomCarouselLayoutManager(CarouselLayoutManager.VERTICAL), adapter)
 
 		// fab button will add element to the end of the list
 		binding.fabScroll.setOnClickListener {
