@@ -1,11 +1,9 @@
 package com.azoft.carousellayoutmanager.sample
 
 import android.databinding.DataBindingUtil
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -17,7 +15,6 @@ import com.azoft.carousellayoutmanager.sample.databinding.ItemViewBinding
 import com.facebook.stetho.Stetho
 import com.github.florent37.expectanim.ExpectAnim
 import com.github.florent37.expectanim.core.Expectations.*
-import java.util.*
 
 class CarouselPreviewActivity : AppCompatActivity() {
 
@@ -69,15 +66,15 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		// enable center post scrolling
 		recyclerView.addOnScrollListener(CenterScrollListener())
 		// enable center post touching on item and item click listener
-		DefaultChildSelectionListener.initCenterItemListener(DefaultChildSelectionListener.OnCenterItemClickListener { recyclerView, carouselLayoutManager, v ->
-			val position = recyclerView.getChildLayoutPosition(v)
-			val msg = "Item $position was clicked"
-			Toast.makeText(this@CarouselPreviewActivity, msg, Toast.LENGTH_SHORT).show()
-		}, recyclerView, layoutManager)
+		DefaultChildSelectionListener.initCenterItemListener(DefaultChildSelectionListener.
+				OnCenterItemClickListener { recyclerView, carouselLayoutManager, v ->
+					val position = recyclerView.getChildLayoutPosition(v)
+					val msg = "Item $position was clicked"
+					Toast.makeText(this@CarouselPreviewActivity, msg, Toast.LENGTH_SHORT).show()
+				}, recyclerView, layoutManager)
 
 		layoutManager.addOnItemSelectionListener { adapterPosition ->
 			if (CarouselLayoutManager.INVALID_POSITION != adapterPosition) {
-				val value = adapter.mPosition[adapterPosition]
 				/*
                     adapter.mPosition[adapterPosition] = (value % 10) + (value / 10 + 1) * 10;
                     adapter.notifyItemChanged(adapterPosition);
@@ -88,37 +85,22 @@ class CarouselPreviewActivity : AppCompatActivity() {
 
 	private class TestAdapter : RecyclerView.Adapter<TestViewHolder>() {
 
-		private val mRandom = Random()
-		private val mColors: IntArray
-		internal val mPosition: IntArray
-		private val mItemsCount = 10
-
-		init {
-			mColors = IntArray(mItemsCount)
-			mPosition = IntArray(mItemsCount)
-			var i = 0
-			while (mItemsCount > i) {
-
-				mColors[i] = Color.argb(255, mRandom.nextInt(256), mRandom.nextInt(256), mRandom.nextInt(256))
-				mPosition[i] = i
-				++i
-			}
-		}
-
 		override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
 			return TestViewHolder(ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 		}
 
 		override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-			holder.mItemViewBinding.cItem1.text = mPosition[position].toString()
-			holder.mItemViewBinding.cItem2.text = mPosition[position].toString()
+			holder.mItemViewBinding.cItem1.text = position.toString()
+			holder.mItemViewBinding.cItem2.text = position.toString()
 
 			holder.mItemViewBinding.locationTypeTV.text = if (position == 0) "Deliver to"
 			else "Delivery " + (position + 1)
+
+			holder.mItemViewBinding.pointTV.text = "D${position + 1}"
 		}
 
 		override fun getItemCount(): Int {
-			return mItemsCount
+			return 8
 		}
 	}
 
@@ -126,32 +108,50 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		val expectAnim: ExpectAnim = ExpectAnim()
 
 				.expect(mItemViewBinding.pointTV)
-				.toBe(centerVerticalInParent())
+				.toBe(
+						centerVerticalInParent(),
+						leftOfParent().withMarginDp(40F)
+				)
 
 				.expect(mItemViewBinding.addressTV)
 				.toBe(
 						centerVerticalInParent(),
-						toRightOf(mItemViewBinding.pointTV).withMarginDp(8f)
+						toRightOf(mItemViewBinding.pointTV).withMarginDp(8F)
 				)
 
 				.expect(mItemViewBinding.locationTypeTV)
-				.toBe(outOfScreen(Gravity.TOP))
+				.toBe(aboveOf(mItemViewBinding.card), alpha(0F))
+
+				.expect(mItemViewBinding.searchImage)
+				.toBe(toLeftOf(mItemViewBinding.card), alpha(0F))
+
+				.expect(mItemViewBinding.card)
+				.toBe(width(300).toDp(), height(50).toDp())
 
 				.toAnimation()
 
 		val otherExpectAnim: ExpectAnim = ExpectAnim()
 
 				.expect(mItemViewBinding.pointTV)
-				.toBe(centerVerticalInParent())
+				.toBe(
+						centerVerticalInParent(),
+						leftOfParent().withMarginDp(40F)
+				)
 
 				.expect(mItemViewBinding.addressTV)
 				.toBe(
 						centerVerticalInParent(),
-						toRightOf(mItemViewBinding.pointTV).withMarginDp(8f)
+						toRightOf(mItemViewBinding.pointTV).withMarginDp(8F)
 				)
 
 				.expect(mItemViewBinding.locationTypeTV)
-				.toBe(outOfScreen(Gravity.BOTTOM))
+				.toBe(belowOf(mItemViewBinding.card), alpha(0F))
+
+				.expect(mItemViewBinding.searchImage)
+				.toBe(toLeftOf(mItemViewBinding.card), alpha(0F))
+
+				.expect(mItemViewBinding.card)
+				.toBe(width(300).toDp(), height(50).toDp())
 
 				.toAnimation()
 

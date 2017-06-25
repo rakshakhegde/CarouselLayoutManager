@@ -9,6 +9,6 @@ class CustomCarouselLayoutManager(orientation: Int, circleLayout: Boolean = fals
 		CarouselLayoutManager(orientation, circleLayout) {
 
 	override fun convertItemPositionDiffToSmoothPositionDiff(itemPositionDiff: Float): Double {
-		return 1.3 * super.convertItemPositionDiffToSmoothPositionDiff(itemPositionDiff)
+		return 1.6 * super.convertItemPositionDiffToSmoothPositionDiff(itemPositionDiff)
 	}
 }
