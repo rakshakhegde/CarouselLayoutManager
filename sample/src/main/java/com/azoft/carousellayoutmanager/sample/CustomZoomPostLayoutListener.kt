@@ -12,7 +12,6 @@ import com.github.florent37.expectanim.ExpectAnim
 class CustomZoomPostLayoutListener : CarouselLayoutManager.PostLayoutListener {
 
 	override fun transformChild(child: View, itemPositionToCenterDiff: Float, orientation: Int): ItemTransformation? {
-//		Log.i("CustomZoomPostLayout", "transformChild : ${child.height} : ${ViewCompat.isLaidOut(child)} : $itemPositionToCenterDiff")
 		if (!ViewCompat.isLaidOut(child)) {
 			return null
 		}
@@ -21,8 +20,8 @@ class CustomZoomPostLayoutListener : CarouselLayoutManager.PostLayoutListener {
 		val percent = Math.min(1f, absItemPositionToCenterDiff)
 		val holder = child.tag as CarouselPreviewActivity.TestViewHolder
 
-		val currentAnim = if (itemPositionToCenterDiff > 0) holder.otherExpectAnim
-		else holder.expectAnim
+		val currentAnim = if (itemPositionToCenterDiff > 0) holder.lowerExpectAnim
+		else holder.upperExpectAnim
 
 		val oldAnim: ExpectAnim? = child.getTag(R.string.expectanim_view_id) as ExpectAnim?
 		if (oldAnim != currentAnim) {
@@ -38,14 +37,6 @@ class CustomZoomPostLayoutListener : CarouselLayoutManager.PostLayoutListener {
 
 		val grayscale: Int = (255 - percent * 15).toInt()
 		holder.mItemViewBinding.card.cardBackgroundColor = ColorStateList.valueOf(Color.rgb(grayscale, grayscale, grayscale))
-
-//		holder.mItemViewBinding.rootlayout.transform<ViewGroup.LayoutParams> {
-//			width = (600 + 100 * (1 - Math.abs(itemPositionToCenterDiff) / 2)).toInt()
-////			height = (100 + 50 * (1 - Math.abs(itemPositionToCenterDiff) / 2)).toInt()
-//			Log.i("CustomZoomPostLayout", "$itemPositionToCenterDiff : ${child.height} : ${child.top} : $width : $height")
-//		}
-
-//		child.visibility = if (absItemPositionToCenterDiff > 3F) View.GONE else View.VISIBLE
 
 		return null
 	}

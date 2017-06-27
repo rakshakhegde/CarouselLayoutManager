@@ -100,18 +100,12 @@ class CarouselPreviewActivity : AppCompatActivity() {
 		}
 
 		override fun getItemCount(): Int {
-			return 8
+			return 12
 		}
 	}
 
 	internal class TestViewHolder(val mItemViewBinding: ItemViewBinding) : RecyclerView.ViewHolder(mItemViewBinding.root) {
-		val expectAnim: ExpectAnim = ExpectAnim()
-
-				.expect(mItemViewBinding.pointTV)
-				.toBe(
-						centerVerticalInParent(),
-						leftOfParent().withMarginDp(40F)
-				)
+		val upperExpectAnim: ExpectAnim = ExpectAnim()
 
 				.expect(mItemViewBinding.addressTV)
 				.toBe(
@@ -120,23 +114,23 @@ class CarouselPreviewActivity : AppCompatActivity() {
 				)
 
 				.expect(mItemViewBinding.locationTypeTV)
-				.toBe(aboveOf(mItemViewBinding.card), alpha(0F))
+				.toBe(alignTop(mItemViewBinding.card), alpha(0F))
 
 				.expect(mItemViewBinding.searchImage)
-				.toBe(toLeftOf(mItemViewBinding.card), alpha(0F))
+				.toBe(alignLeft(mItemViewBinding.card), alpha(0F))
 
 				.expect(mItemViewBinding.card)
-				.toBe(width(300).toDp(), height(50).toDp())
+				.toBe(scale(0.9F, 0.6F))
+
+				.expect(mItemViewBinding.pointTV)
+				.toBe(
+						centerVerticalInParent(),
+						leftOfParent().withMarginDp(40F)
+				)
 
 				.toAnimation()
 
-		val otherExpectAnim: ExpectAnim = ExpectAnim()
-
-				.expect(mItemViewBinding.pointTV)
-				.toBe(
-						centerVerticalInParent(),
-						leftOfParent().withMarginDp(40F)
-				)
+		val lowerExpectAnim: ExpectAnim = ExpectAnim()
 
 				.expect(mItemViewBinding.addressTV)
 				.toBe(
@@ -145,13 +139,19 @@ class CarouselPreviewActivity : AppCompatActivity() {
 				)
 
 				.expect(mItemViewBinding.locationTypeTV)
-				.toBe(belowOf(mItemViewBinding.card), alpha(0F))
+				.toBe(alignBottom(mItemViewBinding.card), alpha(0F))
 
 				.expect(mItemViewBinding.searchImage)
-				.toBe(toLeftOf(mItemViewBinding.card), alpha(0F))
+				.toBe(alignLeft(mItemViewBinding.card), alpha(0F))
 
 				.expect(mItemViewBinding.card)
-				.toBe(width(300).toDp(), height(50).toDp())
+				.toBe(scale(0.9F, 0.5F))
+
+				.expect(mItemViewBinding.pointTV)
+				.toBe(
+						centerVerticalInParent(),
+						leftOfParent().withMarginDp(40F)
+				)
 
 				.toAnimation()
 
